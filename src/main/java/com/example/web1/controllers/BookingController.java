@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/api/bookings")
 public class BookingController {
     @Autowired
@@ -31,7 +31,7 @@ public class BookingController {
 //    }
 
     @PostMapping("/create")
-    public String createBooking(@RequestBody BookingRequest bookingRequest) {
+    public Booking createBooking(@RequestBody BookingRequest bookingRequest) {
         // Логика сохранения бронирования
         return bookingService.saveBooking(bookingRequest);
     }
@@ -49,16 +49,16 @@ public class BookingController {
         // Здесь вы можете сохранить бронирование в базе данных через сервис
        // System.out.println("Бронирование создано: " + booking);
         //return ResponseEntity.ok("Бронирование успешно создано");
-    
+
 
     @GetMapping
     public List<Booking> getAllBookings() {
         return bookingService.getAllBookings();
     }
 
-    @GetMapping("/booking")
-    public String bookingPage() {
-        return "booking"; // Имя HTML-файла без расширения (booking.html)
-    }
+//    @GetMapping("/booking")
+//    public String bookingPage() {
+//        return "booking"; // Имя HTML-файла без расширения (booking.html)
+//    }
 }
 

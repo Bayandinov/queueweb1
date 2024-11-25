@@ -16,15 +16,16 @@ public class BookingService {
     private BookingRepository bookingRepository;
 
     @Transactional
-    public String saveBooking(BookingRequest bookingRequest) {
+    public Booking saveBooking(BookingRequest bookingRequest) {
         Booking booking = new Booking(bookingRequest.getPurpose(), bookingRequest.getDataTime());
         if (bookingRepository.existsByDateTime (booking.getDateTime())) {
             throw new IllegalArgumentException("На выбранное время уже есть бронирование!");
         }
         System.out.println(bookingRequest.getPurpose());
         System.out.println(bookingRequest.getDataTime());
-        bookingRepository.save(booking);
-        return "Забронировано !!!";
+        return bookingRepository.save(booking);
+
+        //return "Забронировано !!!";
     }
 
     public List<Booking> getAllBookings() {
