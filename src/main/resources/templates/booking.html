@@ -31,9 +31,12 @@
         event.preventDefault();
 
         const purpose = document.getElementById('purpose').value;
-        const date = document.getElementById('date').value;
+        let date = document.getElementById('date').value;
 
         if (purpose && date) {
+            // Убедимся, что дата передается в нужном формате
+            const formattedDate = date + ":00";  // Делаем дату полным форматом с секундной частью
+
             fetch('/api/bookings/create', {
                 method: 'POST',
                 headers: {
@@ -41,19 +44,30 @@
                 },
                 body: JSON.stringify({
                     purpose: purpose,
-                    dateTime: date
+                    dateTime: formattedDate  // отправляем дату в правильном формате
                 })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    // Если сервер вернул код ошибки, выбрасываем исключение
+                    return response.json().then(error => {
+                        throw new Error(error.error || 'Произошла ошибка');
+                    });
+                }
+                return response.json(); // Успешный ответ
+            })
             .then(data => {
                 console.log('Success:', data);
                 alert('Бронирование успешно!');
             })
             .catch((error) => {
-                console.error('Error:', error);
+                // Здесь обрабатываем исключения
+                console.error('Error:', error.message);
+                alert(`Ошибка: ${error.message}`);
             });
         }
     });
+
 </script>
 </body>
 </html>

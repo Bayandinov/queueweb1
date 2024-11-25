@@ -1,18 +1,29 @@
-package com.example.web1.models;
+package com.example.web1.models.entity;
 
 import jakarta.persistence.*; // Или javax.persistence.*
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "bookings")
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "date_time")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime dateTime;
     @Column(name = "purpose")
     private String purpose;
-    @Column(name = "date_time")
-    private Timestamp dateTime;
+
+    public Booking(){}
+
+    public Booking(String purpose, LocalDateTime  dataTime) {
+        this.purpose = purpose;
+        this.dateTime = dataTime;
+    }
 
     // Getters and Setters
     public Long getId() {
@@ -31,11 +42,11 @@ public class Booking {
         this.purpose = purpose;
     }
 
-    public Timestamp getDateTime() {
+    public LocalDateTime  getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(Timestamp dateTime) {
+    public void setDateTime(LocalDateTime  dateTime) {
         this.dateTime = dateTime;
     }
 }
